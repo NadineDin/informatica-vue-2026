@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
+import type { S } from 'vue-router/dist/index-BzEKChPW.js'
 
 // ---------------------------------------------------------------------------
 // Day 1 Part A — reactivity and templates
@@ -11,7 +12,7 @@ const bio =
   'Medieninformatikerin mit einer vergangenheit im Handwerk meets userfreundliches Design.'
 
 // TODO Day 1A: b) replace with your own skills
-const skills = [
+const skills = ref([
   'Adobe Creative Suite',
   'Figma',
   'Java',
@@ -20,13 +21,23 @@ const skills = [
   'HTML',
   'CSS',
   'JavaScript'
-]
+])
 
+const message = ref('')
 const newSkill = ref('')
 
 function addSkill() {
   // TODO Day 1A: f) push newSkill.value into skills, then clear the input
   console.log('addSkill:', newSkill.value)
+  if (skills.value.includes(newSkill.value)) {
+    // hier wird abgefragt ob der skill schon vorhanden ist
+    console.log('Skill already exists:', newSkill.value)
+    message.value = 'Skill already exists!'
+    return
+  }
+  skills.value.push(newSkill.value)
+  message.value = ''
+  newSkill.value = ''
 }
 
 // ---------------------------------------------------------------------------
@@ -36,6 +47,7 @@ function addSkill() {
 // TODO Day 1B: add a computed property `skillCount` that returns the number
 // of skills — hint: skills.value.length
 // const skillCount = computed(() => ...)
+const skillCount = computed(() => skills.value.length)
 
 // TODO Day 1B: use onMounted to load saved skills from localStorage
 // (key: 'portfolio-skills') — hint: JSON.parse() to convert back to an array
@@ -48,10 +60,13 @@ function addSkill() {
 // ---------------------------------------------------------------------------
 // Bonus
 // ---------------------------------------------------------------------------
-
-function removeSkill(index: number) {
-  // TODO Bonus: remove the skill at the given index from the skills array
+function removeSkillOnPress(skill: string) {
+  skills.value = skills.value.filter((s) => s !== skill)
 }
+//function removeSkill(index: number) {
+// TODO Bonus: remove the skill at the given index from the skills array
+//  console.log('removeSkill:', index)
+//}
 </script>
 
 <template>
@@ -66,7 +81,9 @@ function removeSkill(index: number) {
     <ul class="skills">
       <!-- TODO Day 1A: d) Render the skills list using "li" + `v-for`
            Bonus: text-input should also add skill on <ENTER> -->
-      <li v-for="skill in skills" :key="skill">{{ skill }}</li>
+      <li v-for="skill in skills" :key="skill" @click="removeSkillOnPress(skill)">
+        {{ skill }}
+      </li>
       <!-- Bonus: <button @click="removeSkill(skills.indexOf(skill))">×</button> -->
       <!-- TODO Day 1A: just for showing first output: Remove when implementation of v-for is done -->
       <!--  {{ skills }} Das war die vorige funktion die man gebraucht hat damit es ausgegeben wird-->
@@ -75,9 +92,15 @@ function removeSkill(index: number) {
     <!-- TODO Day 1A: e) wire up v-model and the addSkill button
          Bonus: text-input should also add skill on <ENTER> -->
     <div class="add-skill">
-      <input v-model="newSkill" placeholder="Add a skill…" />
-      <button>Add</button>
+      <input v-model="newSkill" placeholder="Add a skill…" @keyup.enter="addSkill" />
+      <!-- <button @click="addSkill">Add</button> der button funktioniert immer ohne bedingung-->
+      <button @click="addSkill" :disabled="newSkill.trim().length === 0">Add</button>
     </div>
+
+    <p v-if="message">
+      {{ message }}
+    </p>
+
     <!-- TODO Day 1A: just for debugging: Remove when implementation is ready -->
     <div class="placeholder">{{ newSkill }}</div>
   </section>
