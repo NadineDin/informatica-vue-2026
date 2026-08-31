@@ -45,17 +45,33 @@ function addSkill() {
 // ---------------------------------------------------------------------------
 
 // TODO Day 1B: add a computed property `skillCount` that returns the number
-// of skills — hint: skills.value.length
-// const skillCount = computed(() => ...)
+
+// computet führt dazu das die zahl nur verändert wird wenn sich die skillanzahl aendert
 const skillCount = computed(() => skills.value.length)
 
 // TODO Day 1B: use onMounted to load saved skills from localStorage
 // (key: 'portfolio-skills') — hint: JSON.parse() to convert back to an array
-// onMounted(() => { ... })
+onMounted(() => {
+  console.log('die Seite wurde geladen')
+  const savedSkills = localStorage.getItem('portfolio-skills') //holt hier die unterlagen
+  if (savedSkills) {
+    //wenn daten gespreichert wurden dann gib mir die daten wieder
+    skills.value = JSON.parse(savedSkills)
+  }
+})
 
 // TODO Day 1B: use watch to save skills to localStorage whenever the list changes
 // hint: JSON.stringify() to convert the array to a string, { deep: true } option
-// watch(skills, (val) => { ... }, { deep: true })
+watch(
+  skills,
+  (val) => {
+    //val wird der skill
+    console.log('Skills changed:', val)
+    localStorage.setItem('portfolio-skills', JSON.stringify(val)) //JSON macht das die Liste gespeichert
+    //werden kann
+  },
+  { deep: true } //deep braucht er damit er in das array in die tiefe geht damit alle ännderungen erfasst
+)
 
 // ---------------------------------------------------------------------------
 // Bonus
@@ -77,7 +93,7 @@ function removeSkillOnPress(skill: string) {
 
     <!-- TODO Day 1B: replace the hardcoded "Skills" heading with
          "Skills ({{ skillCount }})" once you've added the computed -->
-    <h3>Skills</h3>
+    <h3>Skills ({{ skillCount }})</h3>
     <ul class="skills">
       <!-- TODO Day 1A: d) Render the skills list using "li" + `v-for`
            Bonus: text-input should also add skill on <ENTER> -->
