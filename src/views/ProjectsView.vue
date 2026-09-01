@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import ProjectCard from '@/components/ProjectCard.vue'
+import { useFetch } from '@vueuse/core'
+import type { Repo } from '@/types'
 //import { ref } from 'vue'
 
 // ---------------------------------------------------------------------------
@@ -7,11 +9,13 @@ import ProjectCard from '@/components/ProjectCard.vue'
 // ---------------------------------------------------------------------------
 
 // TODO Day 2E: import and use your useGithub composable
-import { useGithub } from '@/composables/useGithub'
-const githubUsername = 'antfu'
-//const githubUsername = 'NadineDin' //würde meine öffentlichen projekte zeigen
-const { repos, loading, error } = useGithub(githubUsername)
-//
+//import { useGithub } from '@/composables/useGithub'
+const githubUsername = 'NadineDin'
+//const githubUsername = 'NadineDin' //würde meine öffentlichen projekte zeigen alte vers
+//const { repos, loading, error } = useGithub(githubUsername) alte vers
+const url = `https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=12`
+const { data: repos, isFetching: loading, error } = useFetch(url).json<Repo[]>()
+
 // TODO Day 2F: replace your useGithub composable with @vueuse/core: useFetch composable
 //              see https://vueuse.org/core/useFetch/#usefetch
 

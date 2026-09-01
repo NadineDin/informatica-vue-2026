@@ -31,7 +31,7 @@ export function useGithub(username: string) {
     error.value = null
     try {
       const response = await fetch(
-        //muss einmal aufgerufen werden um überhaupt
+        //muss einmal aufgerufen werden um überhaupt das finden zu können, wird bei useFetch übernommen
         `https://api.github.com/users/${username}/repos?sort=updated&per_page=12`
       )
       if (!response.ok) {

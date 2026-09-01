@@ -4,8 +4,13 @@
 // ---------------------------------------------------------------------------
 
 // TODO Day 2C: import useDarkMode from '@/composables/useDarkMode'
-import { useDarkMode } from '@/composables/useDarkMode'
-const { isDark, toggle } = useDarkMode() //wirde durch useDark/useToggle ersetzt
+//import { useDarkMode } from '@/composables/useDarkMode'
+//const { isDark, toggle } = useDarkMode() //wirde durch useDark/useToggle ersetzt
+import { useDark, useToggle } from '@vueuse/core'
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
+
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
@@ -28,7 +33,7 @@ const route = useRoute()
     </nav>
 
     <!-- TODO Day 2C/F: replace this button with a working dark mode toggle -->
-    <button class="toggle" @click="toggle" aria-label="Toggle dark mode">
+    <button class="toggle" @click="toggleDark()" aria-label="Toggle dark mode">
       {{ isDark ? '☀' : '☽' }}
     </button>
   </header>
