@@ -28,11 +28,15 @@ export function useGithub(username: string) {
 
   async function fetchRepos() {
     loading.value = true
+    error.value = null
     try {
       const response = await fetch(
         //muss einmal aufgerufen werden um überhaupt
         `https://api.github.com/users/${username}/repos?sort=updated&per_page=12`
       )
+      if (!response.ok) {
+        throw new Error(`fehler beim Laden: ${response.statusText} (${response.status}`)
+      }
       repos.value = await response.json()
     } catch (err) {
       error.value = (err as Error).message

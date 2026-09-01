@@ -45,7 +45,7 @@ const { repos, loading, error } = useGithub(githubUsername)
     <p v-if="loading">Projekte werden geladen ...</p>
 
     <!-- TODO Day 2E: show an error message if the fetch fails -->
-    <p v-if="error">{{ 'error' }}</p>
+    <p v-if="error">{{ error }}</p>
 
     <!-- TODO Day 2G
     <div style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; max-width: 360px;">

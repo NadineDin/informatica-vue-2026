@@ -5,7 +5,7 @@
 
 // TODO Day 2C: import useDarkMode from '@/composables/useDarkMode'
 import { useDarkMode } from '@/composables/useDarkMode'
-const { isDark, toggle } = useDarkMode()
+const { isDark, toggle } = useDarkMode() wurde durch useDark/useToggle ersetzt
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
