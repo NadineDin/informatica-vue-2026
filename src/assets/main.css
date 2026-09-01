@@ -29,8 +29,8 @@
   --color-bg: #111110;
   --color-bg-secondary: #1c1c1a;
   --color-text: #e8e8e4;
-  --color-text-secondary: #9a9a94;
-  --color-text-muted: #9ca3af;
+  --color-text-secondary: #b3b3ac;
+  --color-text-muted: #b3b3ac;
   --color-border: #2e2e2c;
   --color-accent: #818cf8;
   --color-accent-hover: #a5b4fc;
@@ -198,6 +198,10 @@ textarea:focus {
   background: var(--color-border);
 }
 
+.footer__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 /* ---------------------------------------------------------------------------
    Navbar
    --------------------------------------------------------------------------- */

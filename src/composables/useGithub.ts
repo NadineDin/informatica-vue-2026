@@ -3,7 +3,8 @@
 // ---------------------------------------------------------------------------
 
 // TODO Day 2E: import the Repo type you defined in src/types/index.ts
-// import type { Repo } from '@/types'
+
+// import { error } from 'console'
 
 // TODO Day 2E: implement useGithub
 //
@@ -17,18 +18,41 @@
 // Bonus Day 2F: replace the manual fetch with VueUse's useFetch() — how much shorter is it?
 
 import { ref } from 'vue'
+import type { Repo } from '@/types'
 
 export function useGithub(username: string) {
   // TODO Day 2E: replace stubs with your implementation
-  const repos = ref([])
+  const repos = ref<Repo[]>([]) //ist eine reaktive liste
   const loading = ref(false)
   const error = ref<string | null>(null)
 
   async function fetchRepos() {
-    // TODO Day 2E
+    loading.value = true
+    try {
+      const response = await fetch(
+        //muss einmal aufgerufen werden um überhaupt
+        `https://api.github.com/users/${username}/repos?sort=updated&per_page=12`
+      )
+      repos.value = await response.json()
+    } catch (err) {
+      error.value = (err as Error).message
+    } finally {
+      loading.value = false
+    }
   }
-
   fetchRepos()
-
   return { repos, loading, error }
 }
+
+//async function fetchRepos() {
+//loading.value = true
+//try {
+//const response = await fetch( //fetch fragt hierbei nach den daten.
+//`https://api.github.com/users/${username}/repos?sort=updated&per_page=12`
+//)
+//repos.value = await response.json()
+//} catch (err) {
+//error.value = (err as Error).message
+//}
+//loading.value = false
+//}

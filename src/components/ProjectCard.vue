@@ -1,24 +1,32 @@
 <script setup lang="ts">
-// ---------------------------------------------------------------------------
-// Day 2A exercise — build this component from scratch
-// ---------------------------------------------------------------------------
+import type { Repo } from '@/types'
 
-// TODO Day 2A: import the Repo type from '@/types'
-// import type { Repo } from '@/types'
-
-// TODO Day 2A: define typed props using defineProps<{}>()
-// The component should accept a single `repo` prop of type Repo
+defineProps<{
+  repo: Repo
+}>()
 </script>
 
 <template>
-  <!-- TODO Day 2A: build a card that displays:
-       - repo.name as a heading (link to repo.html_url)
-       - repo.description
-       - repo.language
-       - repo.stargazers_count
-       - repo.topics as tags (hint: v-for)
-  -->
   <div class="project-card">
-    <p class="placeholder">ProjectCard — build me on Day 2!</p>
+    <h3>
+      <a :href="repo.html_url" target="_blank" rel="noopener noreferrer">
+        {{ repo.name }}
+      </a>
+    </h3>
+
+    <p v-if="repo.description" class="description">
+      {{ repo.description }}
+    </p>
+
+    <div v-if="repo.language || repo.stargazers_count" class="meta">
+      <span v-if="repo.language">{{ repo.language }}</span>
+      <span v-if="repo.stargazers_count">⭐ {{ repo.stargazers_count }}</span>
+    </div>
+
+    <div v-if="repo.topics && repo.topics.length > 0" class="topics">
+      <span v-for="topic in repo.topics" :key="topic" class="topic">
+        {{ topic }}
+      </span>
+    </div>
   </div>
 </template>

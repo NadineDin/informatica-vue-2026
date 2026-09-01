@@ -109,8 +109,8 @@ function removeSkillOnPress(skill: string) {
          Bonus: text-input should also add skill on <ENTER> -->
     <div class="add-skill">
       <input v-model="newSkill" placeholder="Add a skill…" @keyup.enter="addSkill" />
-      <!-- <button @click="addSkill">Add</button> der button funktioniert immer ohne bedingung-->
       <button @click="addSkill" :disabled="newSkill.trim().length === 0">Add</button>
+      <!-- <button @click="addSkill">Add</button> der button funktioniert immer ohne bedingung-->
     </div>
 
     <p v-if="message">

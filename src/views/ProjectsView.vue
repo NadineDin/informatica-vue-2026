@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
+import ProjectCard from '@/components/ProjectCard.vue'
+//import { ref } from 'vue'
 
 // ---------------------------------------------------------------------------
 // Day 2E exercise — fetch your real GitHub repos and display them
 // ---------------------------------------------------------------------------
 
 // TODO Day 2E: import and use your useGithub composable
-// import { useGithub } from '@/composables/useGithub'
-// const githubUsername = 'antfu'
-// const ... = useGithub(githubUsername) ...
+import { useGithub } from '@/composables/useGithub'
+const githubUsername = 'antfu'
+//const githubUsername = 'NadineDin' //würde meine öffentlichen projekte zeigen
+const { repos, loading, error } = useGithub(githubUsername)
 //
 // TODO Day 2F: replace your useGithub composable with @vueuse/core: useFetch composable
 //              see https://vueuse.org/core/useFetch/#usefetch
@@ -26,35 +27,36 @@ import { ref } from 'vue';
 
 // Mock Repo for Day 2A
 // TODO Day2E: remove
-const mockRepo = {
-  id: 1,
-  name: 'demo-project',
-  description: 'A small demo repo',
-  html_url: 'https://github.com/vuejs-ai/skills',
-  language: 'TypeScript',
-  stargazers_count: 42,
-  topics: ['vue', 'typescript']
-}
+//const mockRepo = {
+//  id: 1,
+//  name: 'demo-project',
+//  description: 'A small demo repo',
+//  html_url: 'https://github.com/vuejs-ai/skills',
+//  language: 'TypeScript',
+//  stargazers_count: 42,
+//  topics: ['vue', 'typescript']
+//}
 </script>
 
 <template>
   <section>
     <h2>Projects</h2>
+    <!-- TODO Day 2E: show a loading state while repos are being fetched -->
+    <p v-if="loading">Projekte werden geladen ...</p>
+
+    <!-- TODO Day 2E: show an error message if the fetch fails -->
+    <p v-if="error">{{ 'error' }}</p>
+
     <!-- TODO Day 2G
     <div style="margin-bottom: 1.5rem; display: flex; gap: 0.5rem; max-width: 360px;">
       <input v-model="username" placeholder="GitHub username" />
     </div>
     -->
 
-    <!-- TODO Day 2E: show a loading state while repos are being fetched -->
-
-    <!-- TODO Day 2E: show an error message if the fetch fails -->
-
-    <!-- TODO Day 2A: render a single ProjectCard for the 'mockRepo', remove at Day 2E -->
-
     <div class="projects-grid">
       <!-- TODO Day 2E: render a ProjectCard for each repo -->
-      <p class="placeholder">Your GitHub repos will appear here on Day 2E.</p>
+      <ProjectCard v-for="repo in repos" :key="repo.id" :repo="repo" />
+      <!-- erzeugt für jedes repo eine eigene karte.-->
     </div>
   </section>
 </template>
